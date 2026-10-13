@@ -1,312 +1,497 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Research Portal | University</title>
+    <title>Campus Research Hub | University</title>
 
     <link rel="stylesheet" href="style.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
     <!-- Navigation -->
+
     <header class="navbar">
+
         <a href="/" class="brand">
-            <span class="brand-icon">R</span>
-            <span>Research<span class="brand-light">Portal</span></span>
+
+            <span class="brand-icon">C</span>
+
+            <span>Campus<span class="brand-light">Research Hub</span></span>
+
         </a>
 
         <nav class="nav-links">
+
             <a href="#dashboard" class="nav-link active">Dashboard</a>
+
             <a href="#opportunities" class="nav-link">Opportunities</a>
+
         </nav>
 
         <button class="btn btn-primary nav-button" onclick="openCreateForm()">
-            + Post Opportunity
-        </button>
-    </header>
 
+            + Post Opportunity
+
+        </button>
+
+    </header>
 
     <main class="container">
 
         <!-- Welcome section -->
-        <section class="welcome-section" id="dashboard">
-            <div>
-                <p class="eyebrow">UNIVERSITY RESEARCH NETWORK</p>
 
-                <h1>Discover your next<br>research opportunity.</h1>
+        <section class="welcome-section" id="dashboard">
+
+            <div>
+
+                <p class="eyebrow">CAMPUS IDEAS & INNOVATION</p>
+
+                <h1>Turn your curiosity<br>into real research.</h1>
 
                 <p class="welcome-description">
+
                     Explore research projects, connect with faculty, and find
+
                     opportunities to turn your curiosity into impact.
+
                 </p>
 
                 <button class="btn btn-primary" onclick="openCreateForm()">
+
                     + Create Opportunity
+
                 </button>
+
             </div>
 
             <div class="welcome-art">
+
                 <div class="art-circle circle-one"></div>
+
                 <div class="art-circle circle-two"></div>
 
                 <div class="art-card">
+
                     <span class="art-icon">✦</span>
+
                     <p>Curiosity</p>
+
                     <h3>leads to discovery.</h3>
+
                 </div>
 
-                <div class="art-decoration">RESEARCH · LEARN · GROW</div>
-            </div>
-        </section>
+                <div class="art-decoration">EXPLORE · COLLABORATE · DISCOVER</div>
 
+            </div>
+
+        </section>
 
         <!-- Statistics -->
+
         <section class="stats-grid">
+
             <div class="stat-card">
+
                 <div class="stat-icon">▤</div>
+
                 <div>
+
                     <p>Total Opportunities</p>
+
                     <h2 id="totalCount">0</h2>
+
                 </div>
+
             </div>
 
             <div class="stat-card">
+
                 <div class="stat-icon open-icon">✓</div>
+
                 <div>
+
                     <p>Open Opportunities</p>
+
                     <h2 id="openCount">0</h2>
+
                 </div>
+
             </div>
 
             <div class="stat-card">
+
                 <div class="stat-icon closed-icon">◷</div>
+
                 <div>
+
                     <p>Closed Opportunities</p>
+
                     <h2 id="closedCount">0</h2>
+
                 </div>
+
             </div>
+
         </section>
 
-
         <!-- Opportunities section -->
+
         <section class="opportunities-section" id="opportunities">
 
             <div class="section-heading">
+
                 <div>
-                    <p class="eyebrow">FIND YOUR NEXT STEP</p>
-                    <h2>Research Opportunities</h2>
+
+                    <p class="eyebrow">WHERE IDEAS TAKE SHAPE</p>
+
+                    <h2>Explore Projects</h2>
+
                     <p class="section-description">
-                        Explore projects shared by university faculty.
+
+                        Browse current projects and connect with research teams.
+
                     </p>
+
                 </div>
 
                 <button class="btn btn-outline" onclick="loadOpportunities()">
+
                     ↻ Refresh
+
                 </button>
+
             </div>
 
-
             <!-- Search and filter -->
+
             <div class="toolbar">
 
                 <div class="search-box">
+
                     <span>⌕</span>
+
                     <input
+
                         type="text"
+
                         id="searchInput"
+
                         placeholder="Search title, faculty, skills..."
+
                     >
+
                 </div>
 
                 <select id="statusFilter" aria-label="Filter by status">
+
                     <option value="All">All Statuses</option>
+
                     <option value="Open">Open</option>
+
                     <option value="Closed">Closed</option>
+
                 </select>
 
                 <select id="areaFilter" aria-label="Filter by research area">
+
                     <option value="All">All Research Areas</option>
+
                 </select>
 
             </div>
 
-
             <!-- Messages -->
+
             <div id="messageBox" class="message hidden"></div>
 
             <!-- Loading indicator -->
+
             <div id="loading" class="loading hidden">
+
                 Loading opportunities...
+
             </div>
 
             <!-- Opportunity cards are inserted here by JavaScript -->
+
             <div id="opportunitiesList" class="opportunities-grid"></div>
 
             <!-- Empty state -->
+
             <div id="emptyState" class="empty-state hidden">
+
                 <div class="empty-icon">⌕</div>
+
                 <h3>No opportunities found</h3>
+
                 <p>Try changing your search or create a new opportunity.</p>
 
                 <button class="btn btn-primary" onclick="openCreateForm()">
+
                     Create Opportunity
+
                 </button>
+
             </div>
 
         </section>
 
-
         <!-- Opportunity Form -->
+
         <section class="form-section hidden" id="formSection">
 
             <div class="form-heading">
+
                 <div>
-                    <p class="eyebrow">OPPORTUNITY MANAGEMENT</p>
-                    <h2 id="formTitle">Create an Opportunity</h2>
+
+                    <p class="eyebrow">PROJECT WORKSPACE</p>
+
+                    <h2 id="formTitle">Create a Research Project</h2>
+
                     <p class="section-description">
-                        Fill in the details below to publish a research project.
+
+                        Add the project information below to share it with the campus community.
+
                     </p>
+
                 </div>
 
                 <button class="close-button" onclick="closeForm()" aria-label="Close form">
-                    ✕
-                </button>
-            </div>
 
+                    ✕
+
+                </button>
+
+            </div>
 
             <form id="opportunityForm">
 
                 <div class="form-grid">
 
                     <div class="form-group full-width">
+
                         <label for="title">Research Title *</label>
+
                         <input
+
                             type="text"
+
                             id="title"
+
                             maxlength="200"
+
                             required
+
                             placeholder="e.g., AI-Based Flood Prediction"
+
                         >
+
                     </div>
 
                     <div class="form-group full-width">
+
                         <label for="description">Description *</label>
+
                         <textarea
+
                             id="description"
+
                             rows="4"
+
                             required
+
                             placeholder="Describe the research project and its objectives..."
+
                         ></textarea>
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="research_area">Research Area *</label>
+
                         <input
+
                             type="text"
+
                             id="research_area"
+
                             maxlength="100"
+
                             required
+
                             placeholder="e.g., Artificial Intelligence"
+
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="faculty_name">Faculty Member *</label>
+
                         <input
+
                             type="text"
+
                             id="faculty_name"
+
                             maxlength="150"
+
                             required
+
                             placeholder="Faculty member's name"
+
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="department">Department *</label>
+
                         <input
+
                             type="text"
+
                             id="department"
+
                             maxlength="100"
+
                             required
+
                             placeholder="e.g., Computer Science"
+
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="required_skills">Required Skills *</label>
+
                         <input
+
                             type="text"
+
                             id="required_skills"
+
                             required
+
                             placeholder="Python, Machine Learning..."
+
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="available_positions">Available Positions *</label>
+
                         <input
+
                             type="number"
+
                             id="available_positions"
+
                             min="1"
+
                             step="1"
+
                             required
+
                             placeholder="e.g., 3"
+
                         >
+
                     </div>
 
                     <div class="form-group">
+
                         <label for="application_deadline">Application Deadline *</label>
+
                         <input
+
                             type="date"
+
                             id="application_deadline"
+
                             required
+
                         >
+
                     </div>
 
                     <div class="form-group full-width">
+
                         <label for="status">Opportunity Status *</label>
+
                         <select id="status" required>
+
                             <option value="Open">Open</option>
+
                             <option value="Closed">Closed</option>
+
                         </select>
+
                     </div>
 
                 </div>
 
                 <div class="form-actions">
+
                     <button type="button" class="btn btn-outline" onclick="closeForm()">
+
                         Cancel
+
                     </button>
 
                     <button type="submit" class="btn btn-primary" id="submitButton">
+
                         Save Opportunity
+
                     </button>
+
                 </div>
 
             </form>
 
         </section>
 
-
         <!-- Opportunity Details -->
+
         <section class="details-section hidden" id="detailsSection">
 
             <div class="form-heading">
+
                 <div>
-                    <p class="eyebrow">OPPORTUNITY DETAILS</p>
-                    <h2>Research Overview</h2>
+
+                    <p class="eyebrow">PROJECT SNAPSHOT</p>
+
+                    <h2>Project Overview</h2>
+
                 </div>
 
                 <button class="close-button" onclick="closeDetails()" aria-label="Close details">
+
                     ✕
+
                 </button>
+
             </div>
 
             <div id="detailsContent"></div>
@@ -315,21 +500,26 @@
 
     </main>
 
-
     <footer class="footer">
-        <div class="footer-brand">ResearchPortal</div>
+
+        <div class="footer-brand">Campus Research Hub</div>
 
         <p>
-            Connecting students with research opportunities.
+
+            Bringing curious students and faculty projects together.
+
         </p>
 
         <p class="footer-bottom">
-            University Research Opportunity Portal · FAST-NUCES Peshawar
-        </p>
-    </footer>
 
+            Campus Research Hub · FAST-NUCES Peshawar
+
+        </p>
+
+    </footer>
 
     <script src="script.js"></script>
 
 </body>
-</html>
+
+</html>http://127.0.0.1:5000/api/opportunities

@@ -1,40 +1,22 @@
-// =========================
-// API CONFIGURATION
-// =========================
-
 const API_URL = "/api/opportunities";
 
 let opportunities = [];
 let editingId = null;
 
-
-// =========================
-// ELEMENTS
-// =========================
-
 const opportunitiesList = document.getElementById("opportunitiesList");
 const searchInput = document.getElementById("searchInput");
 const statusFilter = document.getElementById("statusFilter");
 const areaFilter = document.getElementById("areaFilter");
-
 const messageBox = document.getElementById("messageBox");
 const loading = document.getElementById("loading");
 const emptyState = document.getElementById("emptyState");
-
 const formSection = document.getElementById("formSection");
 const detailsSection = document.getElementById("detailsSection");
 const opportunityForm = document.getElementById("opportunityForm");
-
 const submitButton = document.getElementById("submitButton");
-
-
-// =========================
-// SHOW MESSAGE
-// =========================
 
 function showMessage(message, type = "success") {
     messageBox.textContent = message;
-
     messageBox.className = `message message-${type}`;
 
     messageBox.scrollIntoView({
@@ -46,11 +28,6 @@ function showMessage(message, type = "success") {
         messageBox.classList.add("hidden");
     }, 5000);
 }
-
-
-// =========================
-// API REQUEST HELPER
-// =========================
 
 async function apiRequest(url, options = {}) {
     const response = await fetch(url, {
@@ -64,7 +41,6 @@ async function apiRequest(url, options = {}) {
     });
 
     const text = await response.text();
-
     let data = {};
 
     if (text) {
@@ -86,11 +62,6 @@ async function apiRequest(url, options = {}) {
     return data;
 }
 
-
-// =========================
-// LOAD ALL OPPORTUNITIES
-// =========================
-
 async function loadOpportunities(showSuccess = false) {
     loading.classList.remove("hidden");
     opportunitiesList.classList.add("hidden");
@@ -104,7 +75,6 @@ async function loadOpportunities(showSuccess = false) {
         }
 
         opportunities = data;
-
         updateStatistics();
         updateAreaFilter();
         renderOpportunities();
@@ -112,10 +82,8 @@ async function loadOpportunities(showSuccess = false) {
         if (showSuccess) {
             showMessage("Opportunities refreshed successfully.");
         }
-
     } catch (error) {
         opportunities = [];
-
         updateStatistics();
         renderOpportunities();
 
@@ -124,24 +92,16 @@ async function loadOpportunities(showSuccess = false) {
             error.message,
             "error"
         );
-
     } finally {
         loading.classList.add("hidden");
     }
 }
 
-
-// =========================
-// UPDATE STATISTICS
-// =========================
-
 function updateStatistics() {
     const total = opportunities.length;
-
     const open = opportunities.filter(
         opportunity => opportunity.status === "Open"
     ).length;
-
     const closed = opportunities.filter(
         opportunity => opportunity.status === "Closed"
     ).length;
@@ -150,11 +110,6 @@ function updateStatistics() {
     document.getElementById("openCount").textContent = open;
     document.getElementById("closedCount").textContent = closed;
 }
-
-
-// =========================
-// UPDATE RESEARCH AREA FILTER
-// =========================
 
 function updateAreaFilter() {
     const previousValue = areaFilter.value;
@@ -167,14 +122,13 @@ function updateAreaFilter() {
         )
     ].sort();
 
-    areaFilter.innerHTML = '<option value="All">All Research Areas</option>';
+    areaFilter.innerHTML =
+        '<option value="All">All Research Areas</option>';
 
     areas.forEach(area => {
         const option = document.createElement("option");
-
         option.value = area;
         option.textContent = area;
-
         areaFilter.appendChild(option);
     });
 
@@ -182,11 +136,6 @@ function updateAreaFilter() {
         areaFilter.value = previousValue;
     }
 }
-
-
-// =========================
-// FILTER OPPORTUNITIES
-// =========================
 
 function getFilteredOpportunities() {
     const search = searchInput.value.trim().toLowerCase();
@@ -216,14 +165,8 @@ function getFilteredOpportunities() {
     });
 }
 
-
-// =========================
-// RENDER OPPORTUNITY CARDS
-// =========================
-
 function renderOpportunities() {
     const filtered = getFilteredOpportunities();
-
     opportunitiesList.innerHTML = "";
 
     if (filtered.length === 0) {
@@ -237,7 +180,6 @@ function renderOpportunities() {
 
     filtered.forEach(opportunity => {
         const card = document.createElement("article");
-
         card.className = "opportunity-card";
 
         const statusClass =
@@ -262,7 +204,6 @@ function renderOpportunities() {
                 <span class="area-tag">
                     ${escapeHTML(opportunity.research_area)}
                 </span>
-
                 <span class="status-badge ${statusClass}">
                     ${escapeHTML(opportunity.status)}
                 </span>
@@ -339,11 +280,6 @@ function renderOpportunities() {
     });
 }
 
-
-// =========================
-// ESCAPE USER-PROVIDED TEXT
-// =========================
-
 function escapeHTML(value) {
     const characters = {
         "&": "&amp;",
@@ -359,21 +295,14 @@ function escapeHTML(value) {
     );
 }
 
-
-// =========================
-// OPEN CREATE FORM
-// =========================
-
 function openCreateForm() {
     editingId = null;
-
     opportunityForm.reset();
 
     document.getElementById("formTitle").textContent =
         "Create an Opportunity";
 
     submitButton.textContent = "Save Opportunity";
-
     document.getElementById("status").value = "Open";
 
     setDeadlineMinimum();
@@ -387,25 +316,14 @@ function openCreateForm() {
     });
 }
 
-
-// =========================
-// CLOSE FORM
-// =========================
-
 function closeForm() {
     formSection.classList.add("hidden");
     opportunityForm.reset();
     editingId = null;
 }
 
-
-// =========================
-// SET MINIMUM DEADLINE
-// =========================
-
 function setDeadlineMinimum() {
     const deadlineInput = document.getElementById("application_deadline");
-
     const today = new Date();
 
     const year = today.getFullYear();
@@ -414,11 +332,6 @@ function setDeadlineMinimum() {
 
     deadlineInput.min = `${year}-${month}-${day}`;
 }
-
-
-// =========================
-// EDIT OPPORTUNITY
-// =========================
 
 function editOpportunity(id) {
     const opportunity = opportunities.find(
@@ -440,10 +353,8 @@ function editOpportunity(id) {
     document.getElementById("required_skills").value = opportunity.required_skills;
     document.getElementById("available_positions").value =
         opportunity.available_positions;
-
     document.getElementById("application_deadline").value =
         opportunity.application_deadline;
-
     document.getElementById("status").value = opportunity.status;
 
     document.getElementById("formTitle").textContent =
@@ -461,11 +372,6 @@ function editOpportunity(id) {
         block: "start"
     });
 }
-
-
-// =========================
-// CREATE OR UPDATE
-// =========================
 
 opportunityForm.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -486,7 +392,14 @@ opportunityForm.addEventListener("submit", async function (event) {
         "application_deadline"
     ).value;
 
-    if (deadline < new Date().toLocaleDateString("en-CA")) {
+    const today = new Date();
+    const todayString = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, "0"),
+        String(today.getDate()).padStart(2, "0")
+    ].join("-");
+
+    if (deadline < todayString) {
         showMessage(
             "Application deadline cannot be in the past.",
             "error"
@@ -524,7 +437,6 @@ opportunityForm.addEventListener("submit", async function (event) {
         });
 
         closeForm();
-
         await loadOpportunities();
 
         showMessage(
@@ -536,23 +448,15 @@ opportunityForm.addEventListener("submit", async function (event) {
         document.getElementById("opportunities").scrollIntoView({
             behavior: "smooth"
         });
-
     } catch (error) {
         showMessage(error.message, "error");
-
     } finally {
         submitButton.disabled = false;
-
         submitButton.textContent = editingId !== null
             ? "Update Opportunity"
             : "Save Opportunity";
     }
 });
-
-
-// =========================
-// SHOW OPPORTUNITY DETAILS
-// =========================
 
 function showDetails(id) {
     const opportunity = opportunities.find(
@@ -583,7 +487,6 @@ function showDetails(id) {
         </p>
 
         <div class="details-grid">
-
             <div class="detail-item">
                 <p>Research Area</p>
                 <h4>${escapeHTML(opportunity.research_area)}</h4>
@@ -618,7 +521,6 @@ function showDetails(id) {
                 <p>Opportunity ID</p>
                 <h4>${escapeHTML(opportunity.id)}</h4>
             </div>
-
         </div>
     `;
 
@@ -631,19 +533,9 @@ function showDetails(id) {
     });
 }
 
-
-// =========================
-// CLOSE DETAILS
-// =========================
-
 function closeDetails() {
     detailsSection.classList.add("hidden");
 }
-
-
-// =========================
-// CLOSE OPPORTUNITY
-// =========================
 
 async function closeOpportunity(id) {
     const opportunity = opportunities.find(
@@ -687,18 +579,11 @@ async function closeOpportunity(id) {
         });
 
         await loadOpportunities();
-
         showMessage("Opportunity status changed to Closed.");
-
     } catch (error) {
         showMessage(error.message, "error");
     }
 }
-
-
-// =========================
-// DELETE OPPORTUNITY
-// =========================
 
 async function deleteOpportunity(id) {
     const opportunity = opportunities.find(
@@ -724,18 +609,11 @@ async function deleteOpportunity(id) {
         });
 
         await loadOpportunities();
-
         showMessage("Opportunity deleted successfully.");
-
     } catch (error) {
         showMessage(error.message, "error");
     }
 }
-
-
-// =========================
-// HANDLE CARD BUTTONS
-// =========================
 
 opportunitiesList.addEventListener("click", function (event) {
     const button = event.target.closest("button[data-action]");
@@ -768,19 +646,9 @@ opportunitiesList.addEventListener("click", function (event) {
     }
 });
 
-
-// =========================
-// SEARCH AND FILTER EVENTS
-// =========================
-
 searchInput.addEventListener("input", renderOpportunities);
 statusFilter.addEventListener("change", renderOpportunities);
 areaFilter.addEventListener("change", renderOpportunities);
-
-
-// =========================
-// START THE APPLICATION
-// =========================
 
 setDeadlineMinimum();
 loadOpportunities();
