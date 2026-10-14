@@ -19,6 +19,7 @@ A web application for sharing, discovering, and managing university research opp
 - [Testing](#testing)
 - [API testing with Postman](#api-testing-with-postman)
 - [Version Control](#version-control)
+- [Demonstration Video](#demonstration-video)
 
 ## Overview
 
@@ -40,11 +41,13 @@ The current page footer identifies the portal with FAST-NUCES Peshawar.
 
 | Area | Technologies |
 | --- | --- |
-| Frontend | HTML, CSS, and vanilla JavaScript |
-| Backend | Python and Flask |
+| Frontend | HTML, CSS, JavaScript |
+| Backend | Python, Flask |
 | Database | MySQL |
-| Database access | `mysql-connector-python` |
-| Environment configuration | `python-dotenv` | Git and Github | postman for api testing
+| Database access | mysql-connector-python |
+| Environment configuration | python-dotenv |
+| Version control | Git and GitHub |
+| API testing | Postman |
 
 The frontend is static and does not require a separate JavaScript package manager or build step.
 
@@ -58,22 +61,25 @@ The frontend is static and does not require a separate JavaScript package manage
 ## Repository structure
 
 ```text
-.
+research-opportunity-portal/
 ├── backend/
-│   ├── app.py             # Flask frontend server and opportunity API
-│   ├── db.py              # MySQL connection helper and dotenv loading
-│   ├── requirements.txt   # Pinned Python dependencies
-│   ├── test_db.py         # Database connectivity check
-│ 
+│   ├── app.py
+│   ├── db.py
+│   ├── requirements.txt
+│   └── test_db.py
 ├── database/
-│   └── schema.sql         # Creates the database and opportunities table
+│   └── schema.sql
 ├── frontend/
-│   ├── index.html         # Portal page and opportunity form
-│   ├── script.js          # API requests, filtering, and page interactions
-│   └── style.css          # Portal styles
-├── .env.example           # Database environment-variable template
+│   ├── index.html
+│   ├── script.js
+│   └── style.css
+├── postman/
+│   └── Research Opportunity Portal API.postman_collection.json
+├── .env.example
+├── .gitignore
 └── README.md
 ```
+
 
 ## Prerequisites
 
@@ -165,13 +171,17 @@ New opportunities require a title, description, research area, faculty name, dep
 
 All endpoints are served by the Flask application and return JSON for API requests.
 
+## REST API
+
+All API endpoints are served by the Flask application and return JSON responses.
+
 | Method | Endpoint | Description |
 | --- | --- | --- |
-| `GET` | `/api/opportunities` | List opportunities, ordered by ID |
-| `GET` | `/api/opportunities/<id>` | Retrieve one opportunity |
-| `POST` | `/api/opportunities` | Create an opportunity |
-| `PUT` | `/api/opportunities/<id>` | Replace an opportunity's editable fields |
-| `DELETE` | `/api/opportunities/<id>` | Delete an opportunity |
+| GET | `/api/opportunities` | Retrieve all research opportunities |
+| GET | `/api/opportunities/<id>` | Retrieve one opportunity by ID |
+| POST | `/api/opportunities` | Create a research opportunity |
+| PUT | `/api/opportunities/<id>` | Update an existing opportunity |
+| DELETE | `/api/opportunities/<id>` | Delete a research opportunity |
 
 Create and update requests use JSON with these fields:
 
@@ -191,18 +201,25 @@ Create and update requests use JSON with these fields:
 
 The deadline must be in `YYYY-MM-DD` format and cannot be in the past. The example date is illustrative; use a valid future date when submitting a request. A `POST` may omit `status` to use the default `Open`; `PUT` requires all fields, including `status`.
 
-Example requests:
+### Example API requests
+
+List all opportunities:
 
 ```bash
-# List all opportunities
 curl http://127.0.0.1:5000/api/opportunities
+```
 
-# Retrieve opportunity 1
+Retrieve one opportunity:
+
+```bash
 curl http://127.0.0.1:5000/api/opportunities/1
+```
 
-# Create an opportunity (replace the example deadline with a future date)
+Create an opportunity:
+
+```bash
 curl -X POST http://127.0.0.1:5000/api/opportunities \
-  -H 'Content-Type: application/json' \
+  -H "Content-Type: application/json" \
   -d '{
     "title": "Undergraduate Research Assistant",
     "description": "Assist with a faculty research project.",
@@ -239,7 +256,30 @@ Export the completed collection and include it in the repository and final submi
 
 
 ## Version Control
-Git is used to track project changes. The source code will be maintained in a GitHub repository.
+
+Git is used to track project changes, and GitHub hosts the project repository.
+
+**GitHub Repository:** [https://github.com/ryynexx/research-opportunity-portal.git]
+
+The repository contains the backend source code, frontend files, database schema, Postman collection, and setup instructions.
+
+The repository is accessible to the instructor for review and testing.
+
+## Demonstration Video
+
+The demonstration video is included in the submission folder as `demo-video.mp4`.
+
+The video demonstrates the main functionality of the Research Opportunity Portal, including:
+
+- Backend server running successfully.
+- Frontend application running in the browser.
+- Creating and displaying research opportunities.
+- Updating and closing an opportunity.
+- Deleting an opportunity.
+- Testing API requests and responses using Postman.
+- Handling invalid input and displaying a `404 Not Found` response.
+
+The video is approximately one minute long and demonstrates the required functionality of the application.
 
 ## Author
 
